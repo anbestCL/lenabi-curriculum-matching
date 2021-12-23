@@ -1,0 +1,8 @@
+Work with top-level headings
+
+1. Version: kept in phrases => no matches at all
+2. Version: split by word => works, but many matches (not specific enough, e.g. Funktionen vs. quadratische Funktionen)
+
+Work with subtopics
+
+1. Version: candidate set
