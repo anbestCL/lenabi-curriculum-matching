@@ -1,4 +1,7 @@
 import json
+import re
+
+
 import treetaggerwrapper
 import nltk 
 from nltk.corpus import stopwords
@@ -37,7 +40,6 @@ def get_headings(cur, level="top"):
             for subtopic in subtopics:
                 headings.append(subtopic["name"])
         queries = clean(headings)
-#        queries = ",".join(headings).split()
     return queries
 
 def find_matches(cur, query):
@@ -45,9 +47,17 @@ def find_matches(cur, query):
     for level in cur["children"]:
         for topic in level["children"]:
             # partial match
-            if query in topic["name"]:
-                matches.append("&".join([level["name"],topic["name"]]))
+            found = re.search(query, topic["name"], re.IGNORECASE)
 
+            if found is not None:
+                matches.append("&".join([level["name"],topic["name"]]))
+            
+            else:
+                for children in topic["children"]:
+                    found = re.search(query, children["text"], re.IGNORECASE)
+
+                    if found is not None:
+                        matches.append("&".join([level["name"],topic["name"], children["text"]]))
     return matches
 
 # Main routine
