@@ -1,10 +1,18 @@
 import json
+import treetaggerwrapper
+import nltk 
+TAGGER = treetaggerwrapper.TreeTagger(TAGLANG='de', TAGDIR='/Users/anbest/Downloads/tree-tagger-MacOSX-3.2.3/')
 
 def clean(heading_list):
     words = [heading.split("(ca.")[0] for heading in heading_list]
     words = " ".join(words).split()
+    words = lemmatize(words)
     return words
 
+def lemmatize(word_list, tagger = TAGGER):
+    tags = tagger.tag_text(" ".join(word_list))
+    tags2 = treetaggerwrapper.make_tags(tags)
+    return [Tag.lemma for Tag in tags2]
 
 def get_headings(cur, level="top"):
     if level == "top":
