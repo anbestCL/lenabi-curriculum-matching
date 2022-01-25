@@ -60,6 +60,14 @@ def find_matches(cur, query):
                         matches.append("&".join([level["name"],topic["name"], children["text"]]))
     return matches
 
+def print_results(matches):
+    for keyword, results in matches.items():
+        print(f"Keyword:{keyword}")
+        for result in results:
+            levels = result.split("&")
+            for level in levels:
+                print(f"\t{level}")
+
 # Main routine
 
 file_bav = open('bayern-mathematik-9.json')
@@ -73,12 +81,7 @@ matches = {}
 for query in queries:
     matches[query] = find_matches(cur_sax, query)
 
-for keyword in matches:
-    print(keyword)
-    print(matches[keyword])
-    print("\n")
-
-
+print_results(matches)
 
 file_bav.close()
 file_sax.close()
